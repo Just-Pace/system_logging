@@ -3,6 +3,7 @@
 secure_issue_logger_refactored.py
 A streamlined, persistent-clone system issue logger with encrypted log entries and audit trail.
 """
+import getpass
 import os
 import csv
 import subprocess
