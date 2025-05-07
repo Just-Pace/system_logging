@@ -1,53 +1,46 @@
-name: Secure Issue Logger
-
-on:
-  workflow_dispatch:
-    inputs:
-      node:
-        description: 'System Node'
-        required: true
-      issue:
-        description: 'Issue Observed'
-        required: true
-      cause:
-        description: 'Root Cause'
-        required: false
-      action:
-        description: 'Remedial Action'
-        required: false
-      status:
-        description: 'Status'
-        required: false
-        default: 'Open'
-      comments:
-        description: 'Comments'
-        required: false
-      tags:
-        description: 'Tags (comma-separated)'
-        required: false
-
 jobs:
   log:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
+      # 1) Log in to DO Container Registry
+      - name: Log in to DigitalOcean Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: registry.digitalocean.com
+          username: ${{ secrets.DO_USERNAME }}
+          password: ${{ secrets.DO_PAT }}
+
+      # 2) Now pull & run your logger image
       - name: Run logger container
+        env:
+          GITHUB_USER:    ${{ secrets.GITHUB_USER }}
+          GITHUB_PAT:     ${{ secrets.GITHUB_PAT }}
+          LOG_PW:         ${{ secrets.LOG_PW }}
+          GIT_USER_NAME:  ${{ secrets.GIT_USER_NAME }}
+          GIT_USER_EMAIL: ${{ secrets.GIT_USER_EMAIL }}
+          DATE:           ${{ github.event.inputs.date || '' }}
+          NODE:           ${{ github.event.inputs.node }}
+          ISSUE:          ${{ github.event.inputs.issue }}
+          CAUSE:          ${{ github.event.inputs.cause }}
+          ACTION:         ${{ github.event.inputs.action }}
+          STATUS:         ${{ github.event.inputs.status }}
+          COMMENTS:       ${{ github.event.inputs.comments }}
+          TAGS:           ${{ github.event.inputs.tags }}
         run: |
           docker run --rm \
-            -e GITHUB_USER="${{ secrets.GITHUB_USER }}" \
-            -e GITHUB_PAT="${{ secrets.GITHUB_PAT }}" \
-            -e LOG_PW="${{ secrets.LOG_PW }}" \
-            -e GIT_USER_NAME="${{ secrets.GIT_USER_NAME }}" \
-            -e GIT_USER_EMAIL="${{ secrets.GIT_USER_EMAIL }}" \
+            --env GITHUB_USER \
+            --env GITHUB_PAT \
+            --env LOG_PW \
+            --env GIT_USER_NAME \
+            --env GIT_USER_EMAIL \
+            --env DATE \
+            --env NODE \
+            --env ISSUE \
+            --env CAUSE \
+            --env ACTION \
+            --env STATUS \
+            --env COMMENTS \
+            --env TAGS \
             registry.digitalocean.com/system-issue-logger/logger:latest
-        env:
-          # pass the prompt inputs as environment so your entrypoint can read them
-          DATE: ${{ github.event.inputs.date || '' }}
-          NODE: ${{ github.event.inputs.node }}
-          ISSUE: ${{ github.event.inputs.issue }}
-          CAUSE: ${{ github.event.inputs.cause }}
-          ACTION: ${{ github.event.inputs.action }}
-          STATUS: ${{ github.event.inputs.status }}
-          COMMENTS: ${{ github.event.inputs.comments }}
-          TAGS: ${{ github.event.inputs.tags }}
