@@ -1,0 +1,53 @@
+name: Secure Issue Logger
+
+on:
+  workflow_dispatch:
+    inputs:
+      node:
+        description: 'System Node'
+        required: true
+      issue:
+        description: 'Issue Observed'
+        required: true
+      cause:
+        description: 'Root Cause'
+        required: false
+      action:
+        description: 'Remedial Action'
+        required: false
+      status:
+        description: 'Status'
+        required: false
+        default: 'Open'
+      comments:
+        description: 'Comments'
+        required: false
+      tags:
+        description: 'Tags (comma-separated)'
+        required: false
+
+jobs:
+  log:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run logger container
+        run: |
+          docker run --rm \
+            -e GITHUB_USER="${{ secrets.andilemj }}" \
+            -e GITHUB_PAT="${{ secrets.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 }}" \
+            -e LOG_PW="${{ secrets.blackboy79fly }}" \
+            -e GIT_USER_NAME="${{ secrets.AndileMjwara }}" \
+            -e GIT_USER_EMAIL="${{ secrets.andilemjwara@gmail.com }}" \
+            registry.digitalocean.com/system-issue-logger/logger:latest
+        env:
+          # pass the prompt inputs as environment so your entrypoint can read them
+          DATE: ${{ github.event.inputs.date || '' }}
+          NODE: ${{ github.event.inputs.node }}
+          ISSUE: ${{ github.event.inputs.issue }}
+          CAUSE: ${{ github.event.inputs.cause }}
+          ACTION: ${{ github.event.inputs.action }}
+          STATUS: ${{ github.event.inputs.status }}
+          COMMENTS: ${{ github.event.inputs.comments }}
+          TAGS: ${{ github.event.inputs.tags }}
