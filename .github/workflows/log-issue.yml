@@ -35,11 +35,11 @@ jobs:
       - name: Run logger container
         run: |
           docker run --rm \
-            -e GITHUB_USER="${{ secrets.andilemj }}" \
-            -e GITHUB_PAT="${{ secrets.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 }}" \
-            -e LOG_PW="${{ secrets.blackboy79fly }}" \
-            -e GIT_USER_NAME="${{ secrets.AndileMjwara }}" \
-            -e GIT_USER_EMAIL="${{ secrets.andilemjwara@gmail.com }}" \
+            -e GITHUB_USER="${{ secrets.GITHUB_USER }}" \
+            -e GITHUB_PAT="${{ secrets.GITHUB_PAT }}" \
+            -e LOG_PW="${{ secrets.LOG_PW }}" \
+            -e GIT_USER_NAME="${{ secrets.GIT_USER_NAME }}" \
+            -e GIT_USER_EMAIL="${{ secrets.GIT_USER_EMAIL }}" \
             registry.digitalocean.com/system-issue-logger/logger:latest
         env:
           # pass the prompt inputs as environment so your entrypoint can read them
