@@ -36,7 +36,7 @@ jobs:
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
-          token: ${{ secrets.DO_PAT }}
+          token: ${{ secrets.DO_TOKEN }}
 
       # 2) Log in to DO Container Registry
       - name: Authenticate to DO registry
