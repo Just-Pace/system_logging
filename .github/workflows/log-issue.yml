@@ -1,18 +1,49 @@
+name: Secure Issue Logger
+
+on:
+  workflow_dispatch:
+    inputs:
+      node:
+        description: 'System Node'
+        required: true
+      issue:
+        description: 'Issue Observed'
+        required: true
+      cause:
+        description: 'Root Cause'
+        required: false
+      action:
+        description: 'Remedial Action'
+        required: false
+      status:
+        description: 'Status'
+        required: false
+        default: 'Open'
+      comments:
+        description: 'Comments'
+        required: false
+      tags:
+        description: 'Tags (comma-separated)'
+        required: false
+
 jobs:
   log:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      # 1) Log in to DO Container Registry
-      - name: Log in to DigitalOcean Container Registry
-        uses: docker/login-action@v2
+      # 1) Install doctl
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
         with:
-          registry: registry.digitalocean.com
-          username: ${{ secrets.DO_USERNAME }}
-          password: ${{ secrets.DO_PAT }}
+          token: ${{ secrets.DO_PAT }}
 
-      # 2) Now pull & run your logger image
+      # 2) Log in to DO Container Registry
+      - name: Authenticate to DO registry
+        run: |
+          doctl registry login
+
+      # 3) Run your logger container
       - name: Run logger container
         env:
           GITHUB_USER:    ${{ secrets.GITHUB_USER }}
