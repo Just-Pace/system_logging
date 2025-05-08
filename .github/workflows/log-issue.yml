@@ -1,7 +1,7 @@
 name: Secure Issue Logger
 
 on:
-  workflow_dispatch:              # ← Allow manual runs
+  workflow_dispatch:
     inputs:
       date:
         description: 'YYYY-MM-DD (default today)'
@@ -29,5 +29,52 @@ on:
         description: 'Tags (comma-separated)'
         required: false
 
-  # You can still add other triggers, e.g. on: push, if you like
+jobs:
+  log:
+    name: Run Secure Issue Logger
+    runs-on: ubuntu-latest
 
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DO_TOKEN }}
+
+      - name: Authenticate to DO registry
+        run: doctl registry login
+
+      - name: Run logger container
+        env:
+          GITHUB_USER:    ${{ secrets.GITHUB_USER }}
+          GITHUB_PAT:     ${{ secrets.GITHUB_PAT }}
+          LOG_PW:         ${{ secrets.LOG_PW }}
+          GIT_USER_NAME:  ${{ secrets.GIT_USER_NAME }}
+          GIT_USER_EMAIL: ${{ secrets.GIT_USER_EMAIL }}
+          DATE:           ${{ github.event.inputs.date || '' }}
+          NODE:           ${{ github.event.inputs.node }}
+          ISSUE:          ${{ github.event.inputs.issue }}
+          CAUSE:          ${{ github.event.inputs.cause }}
+          ACTION:         ${{ github.event.inputs.action }}
+          STATUS:         ${{ github.event.inputs.status }}
+          COMMENTS:       ${{ github.event.inputs.comments }}
+          TAGS:           ${{ github.event.inputs.tags }}
+        run: |
+          docker run --rm \
+            --env GITHUB_USER \
+            --env GITHUB_PAT \
+            --env LOG_PW \
+            --env GIT_USER_NAME \
+            --env GIT_USER_EMAIL \
+            --env DATE \
+            --env NODE \
+            --env ISSUE \
+            --env CAUSE \
+            --env ACTION \
+            --env STATUS \
+            --env COMMENTS \
+            --env TAGS \
+            -v "${{ github.workspace }}:/data/repo" \
+            registry.digitalocean.com/system-issue-logger/logger:latest
