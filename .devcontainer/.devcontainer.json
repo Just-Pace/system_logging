@@ -5,6 +5,9 @@
     "dockerfile": "Dockerfile",
     "context": ".."
   },
+  "workspaceFolder": "/workspace",
+  "remoteUser": "root",
+  
   "containerEnv": {
     "USER": "${localEnv:USER}",
     "PAT": "${localEnv:PAT}",
@@ -12,6 +15,8 @@
     "LOGR_NAME": "${localEnv:USER_NAME}",
     "LOGR_EMAIL": "${localEnv:USER_EMAIL}"
   },
-  "workspaceFolder": "/workspace",
-  "remoteUser": "root"
+  
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
+  ]
 }
