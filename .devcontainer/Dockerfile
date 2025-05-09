@@ -18,5 +18,8 @@ COPY system_issue_logger.py .
 COPY entrypoint.sh .
 RUN chmod +x entrypoint.sh
 
+COPY log-issue /usr/local/bin/log-issue
+RUN chmod +x /usr/local/bin/log-issue
+
 # Default entrypoint
 ENTRYPOINT ["./entrypoint.sh"]
