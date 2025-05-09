@@ -1,0 +1,17 @@
+// .devcontainer/devcontainer.json
+{
+  "name": "Secure-Logger Dev",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "containerEnv": {
+    "USER": "${localEnv:USER}",
+    "PAT": "${localEnv:PAT}",
+    "LOGR_GPG_PW": "${localEnv:LOG_PW}",
+    "LOGR_NAME": "${localEnv:USER_NAME}",
+    "LOGR_EMAIL": "${localEnv:USER_EMAIL}"
+  },
+  "workspaceFolder": "/workspace",
+  "remoteUser": "root"
+}
