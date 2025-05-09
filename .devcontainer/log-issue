@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-winpty docker run --rm -it \
+docker run --rm -it \
   --env-file "$HOME/logger.env" \
   -v "$HOME/.gnupg":/root/.gnupg:ro \
   -v "$HOME/system_logging":/data/repo \
-  registry.digitalocean.com/system-issue-logger/logger:latest
+  secure-logger
