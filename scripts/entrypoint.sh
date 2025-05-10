@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # 0) Mark workspace safe
-git config --global --add safe.directory /workspace
+git config --global --add safe.directory /workspace || git config --global --add safe.directory /data/repo
 
 # 1) Configure SSH
 mkdir -p /root/.ssh
