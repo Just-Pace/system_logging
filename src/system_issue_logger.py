@@ -12,8 +12,8 @@ from datetime import datetime
 
 # === CONFIGURATION ===
 REPO_PATH = os.getenv("REPO_PATH", "/workspace")
-USER_NAME = os.getenv("USER", getpass.getuser())
-USER_EMAIL = os.getenv("USER_EMAIL", f"{getpass.getuser()}@example.com")
+USER_NAME = os.getenv("LOGGER_USER", getpass.getuser())
+USER_EMAIL = os.getenv("LOGGER_EMAIL", f"{getpass.getuser()}@example.com")
 
 
 def get_passphrase():
