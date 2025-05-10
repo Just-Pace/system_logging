@@ -1,10 +1,17 @@
 # Use a minimal Python base
 FROM python:3.11-slim
-
-# Install Git and GPG
+# … earlier in your Dockerfile …
 RUN apt-get update \
  && apt-get install -y git gnupg openssh-client \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* \
+ \
+ # Pre-create root’s SSH folder
+ && mkdir -p /root/.ssh \
+ && chmod 700 /root/.ssh \
+ \
+ # Add GitHub’s host key so ssh never prompts
+ && ssh-keyscan github.com >> /root/.ssh/known_hosts \
+ && chmod 644 /root/.ssh/known_hosts
 
 # Set workdir
 #WORKDIR /app

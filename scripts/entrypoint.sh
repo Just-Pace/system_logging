@@ -6,11 +6,9 @@ git config --global --add safe.directory /workspace
 
 # 1) Configure SSH
 mkdir -p /root/.ssh
-chmod 700 /root/.ssh
 
 # (The host machine will bind-mount your private key there)
 # You can also add GitHub’s host key to known_hosts for strict checking:
-ssh-keyscan github.com >> /root/.ssh/known_hosts
 
 # 2) Clone or update via SSH
 if [[ ! -d "/workspace/.git" ]]; then
