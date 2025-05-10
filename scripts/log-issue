@@ -10,8 +10,7 @@
 # -----------------------------------------------------------------------------
 
 docker run --rm -it \
-  --env LOGGER_USER    \
-  --env LOGGER_PAT     \
-  --env LOGGER_GPG_PW  \
+  -v ~/.ssh/id_ed25519:/root/.ssh/id_ed25519:ro \
+  -v ~/.ssh/known_hosts:/root/.ssh/known_hosts:ro \
   -v "$PWD":/workspace \
   andilemj/secure-logger:latest
