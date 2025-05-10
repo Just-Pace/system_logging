@@ -15,11 +15,12 @@ WORKDIR /app
 COPY src/system_issue_logger.py .
 
 # Make sure entrypoint has execute perms
-COPY scripts/entrypoint.sh .
+COPY scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x entrypoint.sh
 
 COPY scripts/log-issue /usr/local/bin/log-issue
 RUN chmod +x /usr/local/bin/log-issue
 
 # Default entrypoint
+WORKDIR /workspace
 ENTRYPOINT [".scripts/entrypoint.sh"]
