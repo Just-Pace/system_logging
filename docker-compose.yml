@@ -1,0 +1,6 @@
+services:
+  systemlogging:
+    image: systemlogging
+    build:
+      context: .
+      dockerfile: ./Dockerfile
