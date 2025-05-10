@@ -1,23 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+git config --global --add safe.directory /data/repo
 # ----------------------------------------------------------------
 # 1) If you’ve passed in GITHUB_USER + GITHUB_PAT, bake them into
 #    a .git-credentials file for Git’s store helper to pick up.
 # ----------------------------------------------------------------
-if [[ -n "${USER:-}" && -n "${PAT:-}" ]]; then
+if [[ -n "${LOGGER_USER:-}" && -n "${LOGGER_PAT:-}" ]]; then
   cat > /root/.git-credentials <<EOF
-https://${USER}:${PAT}@github.com
+https://${LOGGER_USER}:${LOGGER_PAT}@github.com
 EOF
   chmod 600 /root/.git-credentials
   git config --global credential.helper store
-fiif [[ -n "${USER:-}" && -n "${PAT:-}" ]]; then
-  cat > /root/.git-credentials <<EOF
-https://${USER}:${PAT}@github.com
-EOF
-  chmod 600 /root/.git-credentials
-  git config --global credential.helper store
-  
 fi
 
 # ----------------------------------------------------------------
@@ -31,6 +25,7 @@ if [[ -f "/root/.ssh/id_ed25519" ]]; then
   export GIT_SSH_COMMAND='ssh -i /root/.ssh/id_ed25519 -o UserKnownHostsFile=/root/.ssh/known_hosts'
 fi
 
+# Clone or Pull your repo
 if [[ ! -d "/data/repo/.git" ]]; then
   git clone git@github.com:Just-Pace/system_logging.git /data/repo
 else
