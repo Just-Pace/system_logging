@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# -----------------------------------------------------------------------------
+# log-issue — one-liner to invoke the secure-logger container
+#
+# Usage: log-issue
+#
+# Expects:
+#   • LOGGER_USER, LOGGER_PAT, LOGGER_GPG_PW
+#   • working dir is your local clone of the repo
+# -----------------------------------------------------------------------------
+
+docker run --rm -it \
+  --env LOGGER_USER    \
+  --env LOGGER_PAT     \
+  --env LOGGER_GPG_PW  \
+  -v "$PWD":/workspace \
+  registry.digitalocean.com/system-issue-logger/logger:latest

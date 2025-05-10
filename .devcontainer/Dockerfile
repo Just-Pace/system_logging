@@ -12,14 +12,14 @@ RUN apt-get update \
 WORKDIR /app
 
 # Copy in your logger script
-COPY system_issue_logger.py .
+COPY src/system_issue_logger.py .
 
 # Make sure entrypoint has execute perms
-COPY entrypoint.sh .
+COPY scripts/entrypoint.sh .
 RUN chmod +x entrypoint.sh
 
-COPY log-issue /usr/local/bin/log-issue
+COPY scripts/log-issue /usr/local/bin/log-issue
 RUN chmod +x /usr/local/bin/log-issue
 
 # Default entrypoint
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT [".scripts/entrypoint.sh"]
