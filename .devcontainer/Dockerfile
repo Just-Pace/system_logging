@@ -3,13 +3,11 @@ FROM python:3.11-slim
 
 # Install Git and GPG
 RUN apt-get update \
- && apt-get install -y --no-install-recommends \
-      git \
-      gnupg \
+ && apt-get install -y git gnupg openssh-client \
  && rm -rf /var/lib/apt/lists/*
 
 # Set workdir
-WORKDIR /app
+#WORKDIR /app
 
 # Copy in your logger script
 COPY src/system_issue_logger.py .
