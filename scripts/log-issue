@@ -14,4 +14,4 @@ docker run --rm -it \
   --env LOGGER_PAT     \
   --env LOGGER_GPG_PW  \
   -v "$PWD":/workspace \
-  registry.digitalocean.com/system-issue-logger/logger:latest
+  secure_logger
