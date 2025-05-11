@@ -106,7 +106,7 @@ def run_logger():
     cwd = os.getcwd()
     os.chdir(REPO_PATH)
     encrypt_csv()
-    append_audit_log(f"Logged issue for {node or '<no-node>'} by {LOGGER_USER}")
+    append_audit_log(f"Logged issue for {node or '<no-node>'} by {USER_NAME}")
     git_commit_and_push()
     print("Log entry encrypted and pushed successfully.")
     os.chdir(cwd)
