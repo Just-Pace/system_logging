@@ -74,8 +74,8 @@ def append_audit_log(entry, filename=".audit.log"):
 
 def git_commit_and_push():
     # Configure local Git identity
-    subprocess.run(["git", "-C", REPO_PATH, "config", "user.name", USER], check=True)
-    subprocess.run(["git", "-C", REPO_PATH, "config", "user.email", USER_EMAIL], check=True)
+    subprocess.run(["git", "-C", REPO_PATH, "config", "user.name", LOGGER_USERUSER], check=True)
+    subprocess.run(["git", "-C", REPO_PATH, "config", "user.email", LOGGER_EMAIL], check=True)
 
     # Stage encrypted log and audit trace
     subprocess.run(["git", "-C", REPO_PATH, "add", "system_issue_log.csv.gpg", ".audit.log"], check=True)
@@ -106,7 +106,7 @@ def run_logger():
     cwd = os.getcwd()
     os.chdir(REPO_PATH)
     encrypt_csv()
-    append_audit_log(f"Logged issue for {node or '<no-node>'} by {USER_NAME}")
+    append_audit_log(f"Logged issue for {node or '<no-node>'} by {LOGGER_USER}")
     git_commit_and_push()
     print("Log entry encrypted and pushed successfully.")
     os.chdir(cwd)
