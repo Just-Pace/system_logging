@@ -18,3 +18,4 @@ test,test,,,,,,
 2025-05-11,,,,,,,
 test ,Switch,none,noen,none,,,
 test 2,,,,,,,
+2025-05-13,Switch Matrix [Asset xxxx],The Switch Matrix glitches over cycles,Not Known,Awaiting Supervisor Comms,In Progress,I have observed a technical glitch in the switch matrix node asset xxxx. This glitch is slowing down thoroughput. I have communicated this issue with the supervisor and i am currently expecting remedial action. I will update this log when i have received supervisor comms.,switchMatrix
