@@ -125,7 +125,6 @@ Generic infrastructure pattern - no proprietary test procedures or customer data
 ## Author
 
 **Andile Mjwara**  
-RF/Microwave Test Engineer | Aerospace & Defense  
 [github.com/andilemj](https://github.com/andilemj)
 
 ## Languages
